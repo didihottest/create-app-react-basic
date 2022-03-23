@@ -1,20 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { FaTrashAlt } from "react-icons/fa";
 
-function Content() {
-  let [name, setName] = useState("")
+function Content({ items, handleCheck, handleDelete }) {
 
-
-  const handleNameChange = () => {
-    const names = ["Juan", "Ninda", "Alif"]
-    const index = Math.floor(Math.random() * 3)
-    setName(names[index])
-
-  }
   return (
     <main>
-      <p onDoubleClick={handleNameChange}>Hello, {name}</p>
-      <button onClick={handleNameChange}>Click Me</button>
-    </main>
+      <ul>
+        {items.length > 0 ?
+          items.map((item) => {
+            return (
+              <li className='item' key={item.id}>
+                <input type="checkbox" checked={item.checked} onChange={() => {
+                  handleCheck(item.id)
+                }} />
+                <label style={{
+                  // contoh tidak bagus
+                  // "text-decoration": "line-through",
+                  textDecoration: item.checked ? "line-through" : ""
+                }}>{item.item}</label>
+                <FaTrashAlt onClick={() => {
+                  handleDelete(item.id)
+                }} />
+              </li>
+            )
+          })
+          :
+          <p style={{ textAlign: "center" }}>List Belanja Kosong</p>
+        }
+      </ul>
+    </main >
   )
 }
 
